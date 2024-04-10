@@ -1,4 +1,4 @@
-import { Box, Flex, Spinner } from "@chakra-ui/react"
+import { Box, Flex, Spinner, Container } from "@chakra-ui/react"
 import Sidebar from "../../components/Sidebar/Sidebar"
 import { useLocation } from "react-router-dom"
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -15,24 +15,26 @@ const PageLayout = ({ children }) => {
   if (checkingUserIsAuth) return <PageLayoutSpinner />
 
   return (
-    <Flex flexDir={canRenderNavbar ? "column" : "row"} >
-      {/* {side bar on the left} */}
-      {canRenderSidebar ? (
-        <Box w={{ base: "70px", md: "240px" }}>
-          <Sidebar />
+    <Container maxW={"container.xl"} alignItems={'center'} px={{ base: "1", md: "8" }}>
+      <Flex flexDir={canRenderNavbar ? "column" : "row"} >
+        {/* {side bar on the left} */}
+        {canRenderSidebar ? (
+          <Box w={{ base: "70px", md: "240px" }}>
+            <Sidebar />
+          </Box>
+        ) : null}
+
+        {/* NavBar */}
+        {canRenderNavbar ? <Navbar /> : null}
+
+
+        {/* {the page content of the right} */}
+        <Box flex={1} w={{ base: "calc(100% - 70px)", md: "calc(100% - 240px)" }} mx={"auto"}>
+          {children}
         </Box>
-      ) : null}
 
-      {/* NavBar */}
-      {canRenderNavbar ? <Navbar /> : null}
-
-
-      {/* {the page content of the right} */}
-      <Box flex={1} w={{ base: "calc(100% - 70px)", md: "calc(100% - 240px)" }} mx={"auto"}>
-        {children}
-      </Box>
-
-    </Flex>
+      </Flex>
+    </Container>
   )
 }
 
